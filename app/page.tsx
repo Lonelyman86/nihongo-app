@@ -3,23 +3,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Search, Book, Type, List } from 'lucide-react';
+import { ArrowRight, Sparkles, Search, Book, Type, List, Flame, Zap, Trophy, User } from 'lucide-react';
 import { searchDatabase, SearchResults } from './actions/search';
 import { getCoursesList, CourseSummary } from './actions/courses';
-
-// Use local types for state to avoid importing heavy dictionaries
-type VocabItem = { kanji: string; kana: string; english: string; jlpt: string; type: string; id: string };
-type KanjiItem = { kanji: string; onyomi: string[]; kunyomi: string[]; meanings: string[]; jlpt: string; strokes: number };
-type GrammarItem = { grammar: string; meaning: string; level: string; id: string };
+import { useProgress } from '@/lib/useProgress';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResults>({ vocab: [], kanji: [], grammar: [] });
   const [courses, setCourses] = useState<CourseSummary[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const { progress } = useProgress();
 
   useEffect(() => {
-    // Fetch courses on mount
     getCoursesList().then(setCourses);
   }, []);
 
@@ -41,211 +38,252 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-8 pb-24 relative overflow-hidden">
-      {/* Background Blobs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] -z-10" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] -z-10" />
+    <main className="min-h-screen p-4 md:p-8 pb-24 relative overflow-hidden">
+      {/* Zen Background: No blobs, just paper texture defined in globals */}
 
-      <header className="flex justify-between items-center mb-16 max-w-5xl mx-auto">
+      <header className="flex justify-between items-center mb-12 max-w-7xl mx-auto border-b border-gray-200 pb-6">
         <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-          <span className="text-gradient-primary">DokuGaku</span>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/40 tracking-wider">
+          {/* Main Brand with Matcha Gradient */}
+          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-lime-600 font-serif">
+            DokuGaku
+          </span>
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 tracking-wider">
             BETA
           </span>
         </h1>
-        <nav>
-          {/* Simple Nav */}
-        </nav>
+        <div className="flex items-center gap-6">
+             {/* Stats */}
+             <div className="hidden md:flex items-center gap-6 text-sm font-bold">
+                <div className="flex items-center gap-2 text-[var(--accent)]">
+                    <Flame className="w-4 h-4 fill-[var(--accent)]/20" /> {progress.streak} Day Streak
+                </div>
+                <div className="flex items-center gap-2 text-[var(--secondary)]">
+                    <Zap className="w-4 h-4 fill-[var(--secondary)]/20" /> {progress.xp} XP
+                </div>
+             </div>
+             <div className="w-10 h-10 rounded-full bg-[#f0f0f0] flex items-center justify-center border border-gray-200 shadow-sm text-gray-600">
+                <User className="w-5 h-5" />
+             </div>
+        </div>
       </header>
 
-      <div className="max-w-5xl mx-auto">
-        <section className="mb-20 text-center relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-5xl md:text-8xl font-black mb-8 leading-tight tracking-tight">
-              Master Japanese <br />
-              <span className="text-gradient-primary">The Simple Way</span>
+      <div className="max-w-7xl mx-auto">
+        <section className="mb-12 text-center md:text-left">
+            <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800 font-serif">
+              Welcome back, <span className="text-[var(--primary)]">Scholar</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              No complex databases. No clutter. Just pure learning focused on
-              what matters. Start your journey from Zero to N1 today.
-            </p>
-            <div className="flex flex-col items-center gap-6 w-full max-w-md mx-auto relative z-20">
-              <div className="relative w-full group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  {isSearching ? (
-                     <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                     <Search className="h-5 w-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
-                  )}
-                </div>
-                <input 
-                  type="text" 
-                  value={query}
-                  onChange={handleSearch}
-                  placeholder="Search grammar, kotoba, kanji..." 
-                  className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all text-white placeholder-gray-500 backdrop-blur-md shadow-lg"
-                />
-              </div>
+            <p className="text-gray-500 text-lg font-medium">Ready to continue your mastery?</p>
+        </section>
 
-               {/* Search Results Dropdown */}
-               <AnimatePresence>
-                {query.length > 0 && (results.vocab.length > 0 || results.kanji.length > 0 || results.grammar.length > 0) && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 max-h-[60vh] overflow-y-auto"
-                  >
-                    {/* Grammar Section (New) */}
-                    {results.grammar.length > 0 && (
-                      <div className="border-b border-white/10">
-                        <div className="px-4 py-2 bg-white/5 text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                           <List className="w-3 h-3" /> Grammar Results
-                        </div>
-                        <div className="divide-y divide-white/5">
-                          {results.grammar.map((item) => (
-                             <div key={item.id} className="p-4 hover:bg-white/5 transition-colors flex items-center justify-between text-left group cursor-pointer">
-                                <div>
-                                  <div className="flex items-baseline gap-3 mb-1">
-                                    <span className="text-xl font-bold text-green-400">{item.grammar}</span>
-                                  </div>
-                                  <p className="text-sm text-gray-300">{item.meaning}</p>
-                                </div>
-                                <div className="text-right">
-                                    <span className="text-xs font-bold px-2 py-1 rounded bg-green-500/20 text-green-300 border border-green-500/20">{item.level}</span>
-                                </div>
-                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+        {/* BENTO GRID LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6 mb-12 auto-rows-[minmax(180px,auto)]">
 
-                    {/* Kanji Section */}
-                    {results.kanji.length > 0 && (
-                      <div className="border-b border-white/10">
-                        <div className="px-4 py-2 bg-white/5 text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                           <Type className="w-3 h-3" /> Kanji Results
-                        </div>
-                        <div className="divide-y divide-white/5">
-                          {results.kanji.map((item, idx) => (
-                             <div key={`k-${idx}`} className="p-4 hover:bg-white/5 transition-colors flex items-center justify-between text-left group cursor-pointer">
-                                <div>
-                                  <div className="flex items-baseline gap-3 mb-1">
-                                    <span className="text-2xl font-black text-pink-400">{item.kanji}</span>
-                                    <span className="text-sm text-gray-400 font-mono ml-2">
-                                      {[...item.onyomi, ...item.kunyomi].slice(0, 3).join(', ')}
-                                    </span>
-                                  </div>
-                                  <p className="text-sm text-gray-300">{item.meanings.slice(0, 2).join(', ')}</p>
-                                </div>
-                                <div className="text-right">
-                                    <span className="text-xs font-bold px-2 py-1 rounded bg-pink-500/20 text-pink-300 border border-pink-500/20">{item.jlpt}</span>
-                                    <p className="text-xs text-gray-600 mt-1">{item.strokes} strokes</p>
-                                </div>
-                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+            {/* 1. SEARCH WIDGET (Span 2 col) */}
+            <div className="col-span-1 md:col-span-2 row-span-1 relative z-30">
+                 <div className="paper-card h-full rounded-2xl p-8 relative bg-white">
+                    {/* Background Decoration (Clipped) */}
+                    <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--primary)]/10 rounded-bl-full -mr-8 -mt-8 opacity-50" />
+                    </div>
 
-                    {/* Vocabulary Section */}
-                    {results.vocab.length > 0 && (
-                      <div>
-                        <div className="px-4 py-2 bg-white/5 text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                           <Book className="w-3 h-3" /> Vocabulary Results
-                        </div>
-                        <div className="divide-y divide-white/5">
-                          {results.vocab.map((item) => (
-                            <div key={item.id} className="p-4 hover:bg-white/5 transition-colors flex items-center justify-between text-left group cursor-pointer">
-                              <div>
-                                <div className="flex items-baseline gap-3 mb-1">
-                                  <span className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{item.kanji}</span>
-                                  <span className="text-sm text-gray-400 font-mono ml-2">{item.kana}</span>
-                                </div>
-                                <p className="text-sm text-gray-500">{item.english}</p>
-                              </div>
-                              <div className="text-right">
-                                  <span className="text-xs font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/20">{item.jlpt}</span>
-                                  <p className="text-xs text-gray-600 mt-1 uppercase tracking-wider">{item.type}</p>
-                              </div>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <Search className="w-3 h-3" /> Dictionary Search
+                    </label>
+                    <div className="relative w-full">
+                        <input
+                            type="text"
+                            value={query}
+                            onChange={handleSearch}
+                            placeholder="Find grammar, kanji, or words..."
+                            className="w-full bg-gray-50 border-2 border-gray-100 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all placeholder:text-gray-400 text-gray-800 shadow-inner"
+                        />
+                         {isSearching && (
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                <div className="w-5 h-5 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-                {/* No results state */}
-                {query.length > 0 && !isSearching && results.vocab.length === 0 && results.kanji.length === 0 && results.grammar.length === 0 && (
-                     <div className="absolute top-full left-0 right-0 mt-2 bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center text-gray-500 shadow-2xl z-50">
-                       <p>No results found for "{query}"</p>
-                     </div>
-                )}
-              </AnimatePresence>
-              
-              {query.length === 0 && (
-                <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] w-full md:w-auto">
-                  Start Learning Now
-                </button>
-              )}
+                         )}
+                    </div>
+
+                     {/* DROPDOWN RESULTS (Light Mode) */}
+                     <AnimatePresence>
+                        {query.length > 0 && (results.vocab.length > 0 || results.kanji.length > 0 || results.grammar.length > 0) && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute top-full left-0 right-0 mt-3 bg-white border border-gray-100 rounded-xl overflow-hidden shadow-xl z-50 max-h-[400px] overflow-y-auto ring-1 ring-black/5"
+                        >
+                             {/* Grammar */}
+                            {results.grammar.length > 0 && (
+                                <div className="p-2">
+                                    <div className="text-xs font-bold text-[var(--primary)] bg-[var(--primary)]/10 px-3 py-1 rounded inline-block mb-2 mt-1 mx-1">Grammar</div>
+                                    {results.grammar.map(item => (
+                                        <div key={item.id} className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors border-b border-gray-50 last:border-0">
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className="font-bold text-[var(--primary)] text-lg">{item.grammar}</span>
+                                                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">{item.level}</span>
+                                            </div>
+                                            <div className="text-sm text-gray-600">{item.meaning}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                             {/* Kanji */}
+                             {results.kanji.length > 0 && (
+                                <div className="p-2 border-t border-gray-100">
+                                    <div className="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1 rounded inline-block mb-2 mt-2 mx-1">Kanji</div>
+                                    {results.kanji.map((item, idx) => (
+                                        <div key={`k-${idx}`} className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors flex items-center gap-4">
+                                            <span className="text-3xl font-black text-gray-800 bg-gray-100 w-12 h-12 flex items-center justify-center rounded-lg font-serif">{item.kanji}</span>
+                                            <div className="overflow-hidden">
+                                                <div className="text-sm font-bold text-gray-800 truncate">{item.meanings.join(', ')}</div>
+                                                <div className="text-xs text-gray-500 truncate font-mono mt-1">{[...item.onyomi, ...item.kunyomi].join(' ')}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                             {/* Vocab */}
+                             {results.vocab.length > 0 && (
+                                <div className="p-2 border-t border-gray-100">
+                                    <div className="text-xs font-bold text-lime-700 bg-lime-50 px-3 py-1 rounded inline-block mb-2 mt-2 mx-1">Vocabulary</div>
+                                    {results.vocab.map(item => (
+                                        <div key={item.id} className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors border-b border-gray-50 last:border-0">
+                                            <div className="flex justify-between items-baseline">
+                                                <span className="font-bold text-gray-900 text-lg">{item.kanji}</span>
+                                                <span className="text-xs text-gray-400 font-mono">{item.kana}</span>
+                                            </div>
+                                            <div className="text-sm text-lime-700 font-medium truncate">{item.english}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </motion.div>
+                        )}
+                     </AnimatePresence>
+                 </div>
             </div>
-          </motion.div>
-        </section>
 
-        <section className="relative z-10">
-          <div className="flex items-center gap-2 mb-8">
-            <Sparkles className="w-5 h-5 text-yellow-400" />
-            <h3 className="text-xl font-semibold">Available Integrated Courses</h3>
-          </div>
+            {/* 2. STREAK CARD (Vermilion Accent) */}
+            <div className="col-span-1 row-span-1 paper-card rounded-2xl p-6 relative overflow-hidden group bg-white border-l-4 border-l-[var(--accent)]">
+                <div className="absolute top-2 right-2 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Flame className="w-16 h-16 text-[var(--accent)]" />
+                </div>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                        <div className="text-4xl font-black text-[var(--accent)] font-serif">{progress.streak}</div>
+                        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Day Streak</div>
+                    </div>
+                    <div className="flex gap-1.5 mt-4">
+                        {[1,2,3,4,5].map(i => (
+                            <div key={i} className={`h-2 flex-1 rounded-sm ${i <= (progress.streak % 5 || 1) ? 'bg-[var(--accent)]' : 'bg-gray-200'}`} />
+                        ))}
+                    </div>
+                </div>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.length === 0 ? (
-               // Loading Skeletons
-               [1,2,3].map(i => (
-                 <div key={i} className="h-48 rounded-2xl bg-white/5 animate-pulse" />
-               ))
-            ) : (
-               courses.map((course, index) => (
-              <motion.div
-                key={course.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link
-                  href={`/lesson/${course.id}`}
-                  className="block group h-full"
-                >
-                  <div className="glass-panel h-full p-6 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.2)]">
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">
-                        {course.level}
-                      </span>
-                      <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors transform group-hover:translate-x-1" />
+            {/* 3. XP CARD (Matcha/Green) */}
+            <div className="col-span-1 row-span-1 paper-card rounded-2xl p-6 relative overflow-hidden group bg-white border-l-4 border-l-[var(--secondary)]">
+                <div className="absolute top-2 right-2 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Zap className="w-16 h-16 text-[var(--secondary)]" />
+                </div>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                        <div className="text-4xl font-black text-[var(--secondary)] font-serif">{progress.xp}</div>
+                        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Total XP</div>
                     </div>
-                    
-                    <h4 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
-                      {course.title}
-                    </h4>
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                      {course.description}
-                    </p>
-                    
-                    <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-4 text-xs text-gray-500">
-                      <span>{course.unitCount} Units</span>
-                      <span className="w-1 h-1 rounded-full bg-gray-700" />
-                      <span>~15 Mins</span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            )))}
-          </div>
-        </section>
+                     <p className="text-xs text-gray-400 mt-2 font-medium">Top 5% Scholar</p>
+                </div>
+            </div>
+
+             {/* 4. COURSES (Loop) */}
+             {courses.length === 0 ? (
+                // Skeleton Loading
+                [1,2,3].map(i => <div key={i} className="col-span-1 md:col-span-2 row-span-1 bg-gray-100 rounded-2xl animate-pulse h-[200px]" />)
+             ) : (
+                courses.map((course) => {
+                    const isCompleted = progress.completedUnits.some(uId => uId.startsWith(course.level));
+                    const unitsDone = progress.completedUnits.filter(u => u.startsWith(course.level)).length;
+                    const progressPercent = Math.min(100, Math.round((unitsDone / Math.max(course.unitCount, 1)) * 100));
+
+                    // Course Colors based on levels (Traditional: N5=Green, N4=Blue, N3=Red/Purple)
+                    // N5: Matcha (Green)
+                    // N4: Ai (Indigo)
+                    // N3: Shu (Vermilion) or Purple
+                    let levelColor = 'text-gray-800';
+                    let levelBg = 'bg-gray-50';
+                    let barColor = 'bg-gray-800';
+
+                    if (course.level === 'N5') {
+                        levelColor = 'text-[var(--secondary)]';
+                        levelBg = 'bg-green-50';
+                        barColor = 'bg-[var(--secondary)]';
+                    } else if (course.level === 'N4') {
+                        levelColor = 'text-[var(--primary)]';
+                        levelBg = 'bg-blue-50';
+                        barColor = 'bg-[var(--primary)]';
+                    } else if (course.level === 'N3') {
+                        levelColor = 'text-[var(--accent)]';
+                        levelBg = 'bg-red-50';
+                        barColor = 'bg-[var(--accent)]';
+                    }
+
+                    return (
+                        <Link key={course.id} href={`/lesson/${course.id}`} className="col-span-1 md:col-span-2 row-span-1">
+                            <motion.div
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
+                                className="h-full paper-card rounded-2xl p-8 relative overflow-hidden group bg-white"
+                            >
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-gray-50 rounded-bl-full -mr-16 -mt-16 opacity-50 transition-all group-hover:scale-110" />
+
+                                <div className="relative z-10 flex flex-col h-full justify-between">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <span className={`px-4 py-1.5 rounded-full text-xs font-bold border uppercase tracking-wider mb-4 inline-block shadow-sm ${levelBg} ${levelColor} border-black/5`}>
+                                                {course.level} Course
+                                            </span>
+                                            <h3 className="text-3xl font-bold text-gray-800 mb-2 font-serif group-hover:text-[var(--primary)] transition-colors">{course.title}</h3>
+                                            <p className="text-gray-500 text-sm max-w-sm leading-relaxed">{course.description}</p>
+                                        </div>
+                                        <div className="p-3 rounded-full bg-white border border-gray-100 shadow-sm group-hover:translate-x-1 transition-transform">
+                                            <ArrowRight className="w-5 h-5 text-gray-400" />
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-8">
+                                        <div className="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wide">
+                                            <span>Progress</span>
+                                            <span>{progressPercent}%</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${progressPercent}%` }}
+                                                transition={{ duration: 1, ease: "easeOut" }}
+                                                className={`h-full rounded-full ${barColor}`}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </Link>
+                    );
+                })
+             )}
+
+
+             {/* 5. STATS SUMMARY (Span 2) */}
+            <div className="col-span-1 md:col-span-2 row-span-1 paper-card rounded-2xl p-6 flex flex-col justify-center items-center text-center bg-gray-900 text-white relative overflow-hidden">
+                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 to-transparent opacity-20" />
+                 <div className="relative z-10">
+                    <Trophy className="w-10 h-10 text-yellow-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-bold text-white mb-1">Current Goal</h3>
+                    <p className="text-sm text-gray-400 mb-0">Complete 3 Units to reach Level 2</p>
+                 </div>
+            </div>
+
+        </div>
       </div>
     </main>
   );

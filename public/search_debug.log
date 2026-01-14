@@ -1,0 +1,97 @@
+2026-01-14T08:31:05.848Z - Received Query: "k"
+2026-01-14T08:31:05.852Z - Dictionary Length: 7972
+2026-01-14T08:31:06.588Z - Received Query: "n"
+2026-01-14T08:31:06.590Z - Dictionary Length: 7972
+2026-01-14T08:31:06.660Z - Received Query: "ne"
+2026-01-14T08:31:06.661Z - Dictionary Length: 7972
+2026-01-14T08:31:06.806Z - Received Query: "nek"
+2026-01-14T08:31:06.810Z - Dictionary Length: 7972
+2026-01-14T08:31:07.025Z - Received Query: "neko"
+2026-01-14T08:31:07.027Z - Dictionary Length: 7972
+2026-01-14T08:31:07.322Z - Received Query: "nek"
+2026-01-14T08:31:07.323Z - Dictionary Length: 7972
+2026-01-14T08:31:09.661Z - Received Query: "n"
+2026-01-14T08:31:09.665Z - Dictionary Length: 7972
+2026-01-14T08:31:09.774Z - Received Query: "ne"
+2026-01-14T08:31:09.775Z - Dictionary Length: 7972
+2026-01-14T08:31:10.295Z - Received Query: "nek"
+2026-01-14T08:31:10.309Z - Dictionary Length: 7972
+2026-01-14T08:31:10.481Z - Received Query: "neko"
+2026-01-14T08:31:10.483Z - Dictionary Length: 7972
+2026-01-14T08:31:20.649Z - Received Query: "nek"
+2026-01-14T08:31:20.651Z - Dictionary Length: 7972
+2026-01-14T08:31:21.161Z - Received Query: "ne"
+2026-01-14T08:31:21.163Z - Dictionary Length: 7972
+2026-01-14T08:31:21.188Z - Received Query: "n"
+2026-01-14T08:31:21.190Z - Dictionary Length: 7972
+2026-01-14T08:31:21.861Z - Received Query: "n"
+2026-01-14T08:31:21.863Z - Dictionary Length: 7972
+2026-01-14T08:31:21.943Z - Received Query: "ne"
+2026-01-14T08:31:21.944Z - Dictionary Length: 7972
+2026-01-14T08:31:22.082Z - Received Query: "nek"
+2026-01-14T08:31:22.083Z - Dictionary Length: 7972
+2026-01-14T08:31:22.289Z - Received Query: "neko"
+2026-01-14T08:31:22.290Z - Dictionary Length: 7972
+2026-01-14T08:32:20.994Z - Received Query: "neko\"
+2026-01-14T08:32:20.995Z - Dictionary Length: 7972
+2026-01-14T08:32:20.999Z - Found 0 matches for "neko\"
+2026-01-14T08:32:21.341Z - Received Query: "neko"
+2026-01-14T08:32:21.342Z - Dictionary Length: 7972
+2026-01-14T08:32:21.345Z - Found 1 matches for "neko"
+2026-01-14T08:32:21.346Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:21.522Z - Received Query: "nek"
+2026-01-14T08:32:21.524Z - Dictionary Length: 7972
+2026-01-14T08:32:21.527Z - Found 4 matches for "nek"
+2026-01-14T08:32:21.528Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:21.686Z - Received Query: "ne"
+2026-01-14T08:32:21.687Z - Dictionary Length: 7972
+2026-01-14T08:32:21.690Z - Found 30 matches for "ne"
+2026-01-14T08:32:21.692Z - First match: {"id":"w21","kanji":"新しい","kana":"あたらしい","romaji":"atarashii","english":"new","type":"word","jlpt":"N5"}
+2026-01-14T08:32:22.089Z - Received Query: "n"
+2026-01-14T08:32:22.090Z - Dictionary Length: 7972
+2026-01-14T08:32:22.093Z - Found 30 matches for "n"
+2026-01-14T08:32:22.094Z - First match: {"id":"w7","kanji":"明るい","kana":"あかるい","romaji":"akarui","english":"bright (in reference to personality or weather); cheerful","type":"word","jlpt":"N5"}
+2026-01-14T08:32:23.146Z - Received Query: "n"
+2026-01-14T08:32:23.151Z - Dictionary Length: 7972
+2026-01-14T08:32:23.153Z - Found 30 matches for "n"
+2026-01-14T08:32:23.155Z - First match: {"id":"w7","kanji":"明るい","kana":"あかるい","romaji":"akarui","english":"bright (in reference to personality or weather); cheerful","type":"word","jlpt":"N5"}
+2026-01-14T08:32:23.251Z - Received Query: "ne"
+2026-01-14T08:32:23.252Z - Dictionary Length: 7972
+2026-01-14T08:32:23.255Z - Found 30 matches for "ne"
+2026-01-14T08:32:23.255Z - First match: {"id":"w21","kanji":"新しい","kana":"あたらしい","romaji":"atarashii","english":"new","type":"word","jlpt":"N5"}
+2026-01-14T08:32:23.395Z - Received Query: "nek"
+2026-01-14T08:32:23.399Z - Dictionary Length: 7972
+2026-01-14T08:32:23.402Z - Found 4 matches for "nek"
+2026-01-14T08:32:23.407Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:23.577Z - Received Query: "neko"
+2026-01-14T08:32:23.578Z - Dictionary Length: 7972
+2026-01-14T08:32:23.581Z - Found 1 matches for "neko"
+2026-01-14T08:32:23.583Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:23.858Z - Received Query: "nek"
+2026-01-14T08:32:23.859Z - Dictionary Length: 7972
+2026-01-14T08:32:23.861Z - Found 4 matches for "nek"
+2026-01-14T08:32:23.862Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:24.374Z - Received Query: "ne"
+2026-01-14T08:32:24.375Z - Dictionary Length: 7972
+2026-01-14T08:32:24.378Z - Found 30 matches for "ne"
+2026-01-14T08:32:24.380Z - First match: {"id":"w21","kanji":"新しい","kana":"あたらしい","romaji":"atarashii","english":"new","type":"word","jlpt":"N5"}
+2026-01-14T08:32:24.405Z - Received Query: "n"
+2026-01-14T08:32:24.439Z - Dictionary Length: 7972
+2026-01-14T08:32:24.515Z - Found 30 matches for "n"
+2026-01-14T08:32:24.516Z - First match: {"id":"w7","kanji":"明るい","kana":"あかるい","romaji":"akarui","english":"bright (in reference to personality or weather); cheerful","type":"word","jlpt":"N5"}
+2026-01-14T08:32:27.828Z - Received Query: "n"
+2026-01-14T08:32:27.830Z - Dictionary Length: 7972
+2026-01-14T08:32:27.835Z - Found 30 matches for "n"
+2026-01-14T08:32:27.836Z - First match: {"id":"w7","kanji":"明るい","kana":"あかるい","romaji":"akarui","english":"bright (in reference to personality or weather); cheerful","type":"word","jlpt":"N5"}
+2026-01-14T08:32:27.930Z - Received Query: "ne"
+2026-01-14T08:32:27.931Z - Dictionary Length: 7972
+2026-01-14T08:32:27.935Z - Found 30 matches for "ne"
+2026-01-14T08:32:27.936Z - First match: {"id":"w21","kanji":"新しい","kana":"あたらしい","romaji":"atarashii","english":"new","type":"word","jlpt":"N5"}
+2026-01-14T08:32:28.038Z - Received Query: "nek"
+2026-01-14T08:32:28.039Z - Dictionary Length: 7972
+2026-01-14T08:32:28.042Z - Found 4 matches for "nek"
+2026-01-14T08:32:28.043Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
+2026-01-14T08:32:28.243Z - Received Query: "neko"
+2026-01-14T08:32:28.244Z - Dictionary Length: 7972
+2026-01-14T08:32:28.251Z - Found 1 matches for "neko"
+2026-01-14T08:32:28.253Z - First match: {"id":"w509","kanji":"猫","kana":"ねこ","romaji":"neko","english":"cat","type":"word","jlpt":"N5"}
