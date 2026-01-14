@@ -7,6 +7,7 @@ A modern, database-free Japanese learning application built for Vercel.
 - **Zero Database**: Content is statically optimized. User progress is saved locally on the device.
 - **Vercel Optimized**: Built with Next.js App Router for instant page loads.
 - **Interactive**: Quizzes and lessons with animations powered by Framer Motion.
+- **Integrated Courses**: Expertly structured N5-N3 curriculum with thematic units.
 - **Beautiful UI**: Modern dark mode aesthetic.
 
 ## 🛠 Tech Stack
