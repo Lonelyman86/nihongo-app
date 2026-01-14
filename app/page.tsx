@@ -44,7 +44,7 @@ export default function Home() {
       <header className="flex justify-between items-center mb-12 max-w-7xl mx-auto border-b border-gray-200 pb-6">
         <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
           {/* Main Brand with Matcha Gradient */}
-          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-lime-600 font-serif">
+          <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-lime-600">
             DokuGaku
           </span>
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 tracking-wider">
@@ -69,7 +69,7 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto">
         <section className="mb-12 text-center md:text-left">
-            <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800 font-serif">
+            <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800">
               Welcome back, <span className="text-[var(--primary)]">Scholar</span>
             </h2>
             <p className="text-gray-500 text-lg font-medium">Ready to continue your mastery?</p>
@@ -134,7 +134,7 @@ export default function Home() {
                                     <div className="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1 rounded inline-block mb-2 mt-2 mx-1">Kanji</div>
                                     {results.kanji.map((item, idx) => (
                                         <div key={`k-${idx}`} className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors flex items-center gap-4">
-                                            <span className="text-3xl font-black text-gray-800 bg-gray-100 w-12 h-12 flex items-center justify-center rounded-lg font-serif">{item.kanji}</span>
+                                            <span className="text-3xl font-black text-gray-800 bg-gray-100 w-12 h-12 flex items-center justify-center rounded-lg">{item.kanji}</span>
                                             <div className="overflow-hidden">
                                                 <div className="text-sm font-bold text-gray-800 truncate">{item.meanings.join(', ')}</div>
                                                 <div className="text-xs text-gray-500 truncate font-mono mt-1">{[...item.onyomi, ...item.kunyomi].join(' ')}</div>
@@ -171,7 +171,7 @@ export default function Home() {
                 </div>
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
-                        <div className="text-4xl font-black text-[var(--accent)] font-serif">{progress.streak}</div>
+                        <div className="text-4xl font-black text-[var(--accent)]">{progress.streak}</div>
                         <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mt-1">Day Streak</div>
                     </div>
                     <div className="flex gap-1.5 mt-4">
@@ -189,7 +189,7 @@ export default function Home() {
                 </div>
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
-                        <div className="text-4xl font-black text-[var(--secondary)] font-serif">{progress.xp}</div>
+                        <div className="text-4xl font-black text-[var(--secondary)]">{progress.xp}</div>
                         <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mt-1">Total XP</div>
                     </div>
                      <p className="text-xs text-gray-500 mt-2 font-medium">Top 5% Scholar</p>
@@ -243,7 +243,7 @@ export default function Home() {
                                             <span className={`px-4 py-1.5 rounded-full text-xs font-bold border uppercase tracking-wider mb-4 inline-block shadow-sm ${levelBg} ${levelColor} border-black/5`}>
                                                 {course.level} Course
                                             </span>
-                                            <h3 className="text-3xl font-bold text-gray-800 mb-2 font-serif group-hover:text-[var(--primary)] transition-colors">{course.title}</h3>
+                                            <h3 className="text-3xl font-bold text-gray-800 mb-2 group-hover:text-[var(--primary)] transition-colors">{course.title}</h3>
                                             <p className="text-gray-600 text-sm max-w-sm leading-relaxed">{course.description}</p>
                                         </div>
                                         <div className="p-3 rounded-full bg-white border border-gray-100 shadow-sm group-hover:translate-x-1 transition-transform">

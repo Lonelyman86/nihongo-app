@@ -23,7 +23,7 @@ export default function LessonPage() {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-800 bg-[var(--background)]">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4 font-serif">Course Not Found</h1>
+          <h1 className="text-2xl font-bold mb-4">Course Not Found</h1>
           <Link href="/" className="text-[var(--primary)] hover:underline">Go Home</Link>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function LessonPage() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold font-serif text-gray-900">{course.title}</h1>
+              <h1 className="text-3xl font-bold text-gray-900">{course.title}</h1>
               <p className="text-gray-500 text-sm mt-1">{course.description}</p>
             </div>
           </header>
@@ -65,7 +65,7 @@ export default function LessonPage() {
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-lg font-bold group-hover:text-[var(--primary)] transition-colors text-gray-800 font-serif">
+                    <h3 className="text-lg font-bold group-hover:text-[var(--primary)] transition-colors text-gray-800">
                       {chapter.title}
                     </h3>
                     <p className="text-xs text-gray-400 mb-2 font-mono uppercase tracking-wide">
@@ -99,8 +99,8 @@ export default function LessonPage() {
           </button>
           <div className="flex-1">
              <div className="flex items-baseline gap-2">
-                <h1 className="text-xl font-bold text-gray-400 font-serif">{course.title} /</h1>
-                <h2 className="text-xl font-bold text-gray-900 font-serif">{activeChapter.title}</h2>
+                <h1 className="text-xl font-bold text-gray-400">{course.title} /</h1>
+                <h2 className="text-xl font-bold text-gray-900">{activeChapter.title}</h2>
              </div>
           </div>
         </header>
@@ -158,7 +158,7 @@ export default function LessonPage() {
                                 <div>
                                   {type === 'kanji' ? (
                                      <div className="flex items-end gap-3 mb-2">
-                                       <span className="text-5xl font-black text-gray-800 font-serif">{item.japanese}</span>
+                                       <span className="text-5xl font-black text-gray-800">{item.japanese}</span>
                                        <div className="flex flex-col text-xs text-gray-500 font-mono mb-1">
                                           {item.romaji.split('\n').map((line, i) => <span key={i}>{line}</span>)}
                                        </div>
@@ -166,7 +166,7 @@ export default function LessonPage() {
                                   ) : (
                                      <div className="mb-2">
                                       <div className="flex items-center gap-3">
-                                        <div className={`font-bold text-gray-900 font-serif ${type === 'grammar' ? 'text-2xl' : 'text-3xl'}`}>
+                                        <div className={`font-bold text-gray-900 ${type === 'grammar' ? 'text-2xl' : 'text-3xl'}`}>
                                           {item.japanese}
                                         </div>
                                         <button
@@ -201,7 +201,7 @@ export default function LessonPage() {
                                     <p className="text-[10px] font-bold text-blue-500 mb-1 flex items-center gap-1 uppercase tracking-wider">
                                       <Speech className="w-3 h-3" /> Context
                                     </p>
-                                    <p className="text-base text-gray-800 font-medium font-serif">{item.context.japanese}</p>
+                                    <p className="text-base text-gray-800 font-medium">{item.context.japanese}</p>
                                     <p className="text-xs text-gray-500">{item.context.english}</p>
                                   </div>
                                 )}
@@ -211,7 +211,7 @@ export default function LessonPage() {
                                     <p className="text-[10px] font-bold text-amber-600 mb-1 flex items-center gap-1 uppercase tracking-wider">
                                       <Lightbulb className="w-3 h-3" /> Memory Hint
                                     </p>
-                                    <p className="text-sm text-gray-700 italic font-serif">"{item.mnemonic}"</p>
+                                    <p className="text-sm text-gray-700 italic">"{item.mnemonic}"</p>
                                   </div>
                                 )}
 
@@ -300,7 +300,7 @@ function QuizSection({ chapter, onComplete }: { chapter: Chapter, onComplete: ()
         className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-xl paper-card"
       >
         <div className="text-6xl mb-6">💮</div>
-        <h2 className="text-3xl font-bold mb-4 text-gray-900 font-serif">Unit Completed</h2>
+        <h2 className="text-3xl font-bold mb-4 text-gray-900">Unit Completed</h2>
         <p className="text-xl text-gray-500 mb-8">
           You scored <span className="text-[var(--accent)] font-bold">{score}</span> / {chapter.quiz.length}
         </p>
@@ -344,7 +344,7 @@ function QuizSection({ chapter, onComplete }: { chapter: Chapter, onComplete: ()
           <span>Question {currentQuestionIndex + 1} / {chapter.quiz.length}</span>
           <span>Score: {score}</span>
         </div>
-        <h3 className="text-2xl font-bold text-gray-800 mb-2 font-serif relative z-10">{question.question}</h3>
+        <h3 className="text-2xl font-bold text-gray-800 mb-2 relative z-10">{question.question}</h3>
       </div>
 
       <div className="grid gap-3">
