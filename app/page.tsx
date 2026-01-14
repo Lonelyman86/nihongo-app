@@ -172,7 +172,7 @@ export default function Home() {
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
                         <div className="text-4xl font-black text-[var(--accent)] font-serif">{progress.streak}</div>
-                        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Day Streak</div>
+                        <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mt-1">Day Streak</div>
                     </div>
                     <div className="flex gap-1.5 mt-4">
                         {[1,2,3,4,5].map(i => (
@@ -190,9 +190,9 @@ export default function Home() {
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
                         <div className="text-4xl font-black text-[var(--secondary)] font-serif">{progress.xp}</div>
-                        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Total XP</div>
+                        <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mt-1">Total XP</div>
                     </div>
-                     <p className="text-xs text-gray-400 mt-2 font-medium">Top 5% Scholar</p>
+                     <p className="text-xs text-gray-500 mt-2 font-medium">Top 5% Scholar</p>
                 </div>
             </div>
 
@@ -206,26 +206,26 @@ export default function Home() {
                     const unitsDone = progress.completedUnits.filter(u => u.startsWith(course.level)).length;
                     const progressPercent = Math.min(100, Math.round((unitsDone / Math.max(course.unitCount, 1)) * 100));
 
-                    // Course Colors based on levels (Traditional: N5=Green, N4=Blue, N3=Red/Purple)
-                    // N5: Matcha (Green)
-                    // N4: Ai (Indigo)
-                    // N3: Shu (Vermilion) or Purple
-                    let levelColor = 'text-gray-800';
-                    let levelBg = 'bg-gray-50';
+                    // Course Colors based on levels
+                    // N5: Matcha (Lime/Green)
+                    // N4: Sky (Blue) - Kept distinction but fixed contrast
+                    // N3: Azuki (Rose/Red)
+                    let levelColor = 'text-gray-900';
+                    let levelBg = 'bg-gray-100';
                     let barColor = 'bg-gray-800';
 
                     if (course.level === 'N5') {
-                        levelColor = 'text-[var(--secondary)]';
-                        levelBg = 'bg-green-50';
-                        barColor = 'bg-[var(--secondary)]';
+                        levelColor = 'text-lime-800';
+                        levelBg = 'bg-lime-100';
+                        barColor = 'bg-lime-600';
                     } else if (course.level === 'N4') {
-                        levelColor = 'text-[var(--primary)]';
-                        levelBg = 'bg-blue-50';
-                        barColor = 'bg-[var(--primary)]';
+                        levelColor = 'text-sky-800';
+                        levelBg = 'bg-sky-100';
+                        barColor = 'bg-sky-600';
                     } else if (course.level === 'N3') {
-                        levelColor = 'text-[var(--accent)]';
-                        levelBg = 'bg-red-50';
-                        barColor = 'bg-[var(--accent)]';
+                        levelColor = 'text-rose-800';
+                        levelBg = 'bg-rose-100';
+                        barColor = 'bg-rose-600';
                     }
 
                     return (
@@ -244,15 +244,15 @@ export default function Home() {
                                                 {course.level} Course
                                             </span>
                                             <h3 className="text-3xl font-bold text-gray-800 mb-2 font-serif group-hover:text-[var(--primary)] transition-colors">{course.title}</h3>
-                                            <p className="text-gray-500 text-sm max-w-sm leading-relaxed">{course.description}</p>
+                                            <p className="text-gray-600 text-sm max-w-sm leading-relaxed">{course.description}</p>
                                         </div>
                                         <div className="p-3 rounded-full bg-white border border-gray-100 shadow-sm group-hover:translate-x-1 transition-transform">
-                                            <ArrowRight className="w-5 h-5 text-gray-400" />
+                                            <ArrowRight className="w-5 h-5 text-gray-500" />
                                         </div>
                                     </div>
 
                                     <div className="mt-8">
-                                        <div className="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wide">
+                                        <div className="flex justify-between text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">
                                             <span>Progress</span>
                                             <span>{progressPercent}%</span>
                                         </div>
