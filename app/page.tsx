@@ -70,9 +70,9 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         <section className="mb-12 text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800">
-              Welcome back, <span className="text-[var(--primary)]">Scholar</span>
+              Okaeri, <span className="text-[var(--primary)]">Sensei!</span>
             </h2>
-            <p className="text-gray-500 text-lg font-medium">Ready to continue your mastery?</p>
+            <p className="text-gray-500 text-lg font-medium">Siap melanjutkan petualangan hari ini?</p>
         </section>
 
         {/* BENTO GRID LAYOUT */}
@@ -87,14 +87,14 @@ export default function Home() {
                     </div>
 
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                        <Search className="w-3 h-3" /> Dictionary Search
+                        <Search className="w-3 h-3" /> Cari Kotoba (Kamus)
                     </label>
                     <div className="relative w-full">
                         <input
                             type="text"
                             value={query}
                             onChange={handleSearch}
-                            placeholder="Find grammar, kanji, or words..."
+                            placeholder="Cari huruf, kanji, atau arti..."
                             className="w-full bg-gray-50 border-2 border-gray-100 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all placeholder:text-gray-400 text-gray-800 shadow-inner"
                         />
                          {isSearching && (
@@ -196,81 +196,60 @@ export default function Home() {
                 </div>
             </div>
 
-             {/* 4. COURSES (Loop) */}
-             {courses.length === 0 ? (
-                // Skeleton Loading
-                [1,2,3].map(i => <div key={i} className="col-span-1 md:col-span-2 row-span-1 bg-gray-100 rounded-2xl animate-pulse h-[200px]" />)
-             ) : (
-                courses.map((course) => {
-                    const isCompleted = progress.completedUnits.some(uId => uId.startsWith(course.level));
-                    const unitsDone = progress.completedUnits.filter(u => u.startsWith(course.level)).length;
-                    const progressPercent = Math.min(100, Math.round((unitsDone / Math.max(course.unitCount, 1)) * 100));
+             {/* 4. TIMELINE (ROADMAP) */}
+             <div className="col-span-1 md:col-span-4 row-span-1 mt-4">
+                <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                   <div className="p-2 bg-[var(--primary)]/10 rounded-lg text-[var(--primary)]">
+                     <List className="w-5 h-5" />
+                   </div>
+                   Roadmap Belajar (N5)
+                </h3>
 
-                    // Course Colors based on levels
-                    // N5: Matcha (Lime/Green)
-                    // N4: Sky (Blue) - Kept distinction but fixed contrast
-                    // N3: Azuki (Rose/Red)
-                    let levelColor = 'text-gray-900';
-                    let levelBg = 'bg-gray-100';
-                    let barColor = 'bg-gray-800';
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                   {courses.find(c => c.level === 'N5')?.chapters?.map((chapter, idx) => {
+                      // Check progress
+                      const isDone = false; // TODO: Hook up to real progress
+                      const isLocked = idx > 0 && !isDone; // Simple lock mechanism
 
-                    if (course.level === 'N5') {
-                        levelColor = 'text-lime-800';
-                        levelBg = 'bg-lime-100';
-                        barColor = 'bg-lime-600';
-                    } else if (course.level === 'N4') {
-                        levelColor = 'text-sky-800';
-                        levelBg = 'bg-sky-100';
-                        barColor = 'bg-sky-600';
-                    } else if (course.level === 'N3') {
-                        levelColor = 'text-rose-800';
-                        levelBg = 'bg-rose-100';
-                        barColor = 'bg-rose-600';
-                    }
+                      return (
 
-                    return (
-                        <Link key={course.id} href={`/lesson/${course.id}`} className="col-span-1 md:col-span-2 row-span-1">
-                            <motion.div
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                className="h-full paper-card rounded-2xl p-8 relative overflow-hidden group bg-white"
-                            >
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-gray-50 rounded-bl-full -mr-16 -mt-16 opacity-50 transition-all group-hover:scale-110" />
+                         <Link key={chapter.id} href={`/lesson/n5?chapterId=${chapter.id}`}
+                               className={`group relative p-6 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all ${isLocked ? 'opacity-70 grayscale' : 'hover:-translate-y-1 hover:border-[var(--primary)]'}`}
+                         >
+                            <div className="flex justify-between items-start mb-4">
+                               <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${idx === 0 ? 'bg-lime-100 text-lime-700' : 'bg-gray-100 text-gray-500'}`}>
+                                  Hari {idx + 1}
+                               </span>
+                               {isLocked ? <div className="text-gray-300">🔒</div> : <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[var(--primary)]" />}
+                            </div>
 
-                                <div className="relative z-10 flex flex-col h-full justify-between">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <span className={`px-4 py-1.5 rounded-full text-xs font-bold border uppercase tracking-wider mb-4 inline-block shadow-sm ${levelBg} ${levelColor} border-black/5`}>
-                                                {course.level} Course
-                                            </span>
-                                            <h3 className="text-3xl font-bold text-gray-800 mb-2 group-hover:text-[var(--primary)] transition-colors">{course.title}</h3>
-                                            <p className="text-gray-600 text-sm max-w-sm leading-relaxed">{course.description}</p>
-                                        </div>
-                                        <div className="p-3 rounded-full bg-white border border-gray-100 shadow-sm group-hover:translate-x-1 transition-transform">
-                                            <ArrowRight className="w-5 h-5 text-gray-500" />
-                                        </div>
-                                    </div>
+                            <h4 className="text-lg font-bold text-gray-800 mb-2">{chapter.title.split(':')[1] || chapter.title}</h4>
+                            <p className="text-xs text-gray-500 leading-relaxed mb-4 line-clamp-2">
+                               {chapter.description}
+                            </p>
 
-                                    <div className="mt-8">
-                                        <div className="flex justify-between text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">
-                                            <span>Progress</span>
-                                            <span>{progressPercent}%</span>
-                                        </div>
-                                        <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                                            <motion.div
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${progressPercent}%` }}
-                                                transition={{ duration: 1, ease: "easeOut" }}
-                                                className={`h-full rounded-full ${barColor}`}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </Link>
-                    );
-                })
-             )}
+                            <div className="flex gap-2">
+                               {chapter.content.some(c => c.kind === 'vocabulary') && (
+                                  <span className="text-[10px] px-2 py-1 bg-gray-50 text-gray-500 rounded border border-gray-100 font-medium">Kotoba</span>
+                               )}
+                               {chapter.content.some(c => c.kind === 'kanji') && (
+                                  <span className="text-[10px] px-2 py-1 bg-gray-50 text-gray-500 rounded border border-gray-100 font-medium">Kanji</span>
+                               )}
+                               {chapter.content.some(c => c.kind === 'grammar') && (
+                                  <span className="text-[10px] px-2 py-1 bg-gray-50 text-gray-500 rounded border border-gray-100 font-medium">Bunpou</span>
+                               )}
+                            </div>
+                         </Link>
+                      );
+                   })}
+
+                   {/* Coming Soon Card */}
+                   <div className="p-6 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 text-sm font-medium min-h-[160px]">
+                      <span>Hari berikutnya...</span>
+                      <span className="text-xs mt-1 opacity-70">Coming Soon</span>
+                   </div>
+                </div>
+             </div>
 
 
              {/* 5. STATS SUMMARY (Span 2) */}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { courses, Chapter } from '@/data/content';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -12,12 +12,22 @@ import confetti from 'canvas-confetti';
 
 export default function LessonPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const lessonId = params.id as string;
   const course = courses.find((c) => c.id === lessonId);
 
   const [activeChapter, setActiveChapter] = useState<Chapter | null>(null);
   const [activeTab, setActiveTab] = useState<'learn' | 'quiz'>('learn');
+
+  // Deep Link Handling
+  useEffect(() => {
+    const chapterId = searchParams.get('chapterId');
+    if (chapterId && course) {
+       const found = course.chapters.find(c => c.id === chapterId);
+       if (found) setActiveChapter(found);
+    }
+  }, [searchParams, course]);
 
   if (!course) {
     return (
@@ -47,7 +57,7 @@ export default function LessonPage() {
 
           <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-gray-800 border-b border-gray-200 pb-2">
             <List className="w-5 h-5 text-[var(--primary)]" />
-            Select a Unit
+            Pilih Materi
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -69,7 +79,7 @@ export default function LessonPage() {
                       {chapter.title}
                     </h3>
                     <p className="text-xs text-gray-400 mb-2 font-mono uppercase tracking-wide">
-                      {chapter.content.length} Items
+                      {chapter.content.length} Item
                     </p>
                     <p className="text-sm text-gray-500 leading-snug">
                        {chapter.description}
@@ -92,7 +102,10 @@ export default function LessonPage() {
         {/* Header */}
         <header className="flex items-center gap-4 mb-8">
           <button
-            onClick={() => setActiveChapter(null)}
+            onClick={() => {
+               setActiveChapter(null);
+               router.push(`/lesson/${lessonId}`); // Clear URL param
+            }}
             className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-900 hover:shadow-sm"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -115,7 +128,7 @@ export default function LessonPage() {
             )}
           >
             <BookOpen className="w-4 h-4" />
-            Learn
+            Belajar
           </button>
           <button
             onClick={() => setActiveTab('quiz')}
@@ -125,7 +138,7 @@ export default function LessonPage() {
             )}
           >
             <Brain className="w-4 h-4" />
-            Quiz
+            Latihan
           </button>
         </div>
 
@@ -146,10 +159,9 @@ export default function LessonPage() {
                 return (
                   <div key={type}>
                      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2 border-b border-gray-200 pb-2">
-                        {type === 'vocabulary' && <BookOpen className="w-4 h-4" />}
-                        {type === 'kanji' && <Brain className="w-4 h-4" />}
-                        {type === 'grammar' && <List className="w-4 h-4" />}
-                        {type}
+                        {type === 'vocabulary' && <><BookOpen className="w-4 h-4" /> KOTOBA (Kosakata)</>}
+                        {type === 'kanji' && <><Brain className="w-4 h-4" /> KANJI</>}
+                        {type === 'grammar' && <><List className="w-4 h-4" /> BUNPOU (Tata Bahasa)</>}
                      </h3>
                      <div className="grid gap-4">
                         {items.map((item, idx) => (

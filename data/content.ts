@@ -44,69 +44,56 @@ export type Lesson = {
   icon: string;
   color: string;
   chapters: Chapter[];
+  unitCount: number;
 };
 
 // --- JLPT N5 Curriculum Topics (Textbook Style) ---
-const TOPICS = [
+// --- Indonesian Roadmap (Day-by-Day System) ---
+const DAYS = [
   {
-    id: 'ch1_greetings_intro',
-    title: 'Chap 1: Greetings & Yourself',
-    // Focus: X wa Y desu (I am...), Greetings, Country, Job
-    keywords: ['hello', 'morning', 'greeting', 'nice', 'meet', ' i ', 'you', 'name', 'student', 'teacher', 'doctor', 'employee', 'japanese', 'person', 'yes', 'no', 'mr', 'ms'],
+    id: 'day1_intro',
+    title: 'Hari 1: Perkenalan & Angka',
+    description: 'Salam dasar dan angka 1-10.',
+    keywords: ['hello', 'morning', 'greeting', 'nice', 'meet', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    forcedContent: [
+       { japanese: 'こんにちは', romaji: 'konnichiwa', english: 'Halo / Selamat Siang', kind: 'vocabulary' },
+       { japanese: 'おはよう', romaji: 'ohayou', english: 'Selamat Pagi', kind: 'vocabulary' },
+       { japanese: 'はじめまして', romaji: 'hajimemashite', english: 'Salam Kenal', kind: 'vocabulary' },
+       { japanese: '一', romaji: 'ichi', english: 'Satu', kind: 'kanji' },
+       { japanese: '二', romaji: 'ni', english: 'Dua', kind: 'kanji' },
+       { japanese: '三', romaji: 'san', english: 'Tiga', kind: 'kanji' },
+       { japanese: '私', romaji: 'watashi', english: 'Saya', kind: 'kanji' },
+       { japanese: 'は', romaji: 'wa', english: 'Partikel Topik (Subjek)', kind: 'grammar', grammarStructure: 'Subjek + wa', grammarExplanation: 'Menandakan topik pembicaraan. Contoh: Watashi wa... (Saya adalah...)' },
+       { japanese: 'さん', romaji: 'san', english: 'Panggilan Sopan (Mr/Ms)', kind: 'grammar', grammarStructure: 'Nama + san', grammarExplanation: 'Akhiran sopan untuk nama orang lain. Jangan pakai untuk diri sendiri!' },
+    ]
   },
   {
-    id: 'ch2_demonstratives',
-    title: 'Chap 2: Asking "What is that?"',
-    // Focus: Kore/Sore/Are, Kono/Sono/Ano, Whose is this?
-    keywords: ['this', 'that', 'what', 'who', 'whose', 'book', 'pen', 'umbrella', 'key', 'watch', 'camera', 'computer', 'car', 'bag'],
+    id: 'day2_pronouns',
+    title: 'Hari 2: Kata Tunjuk',
+    description: 'Ini, Itu, dan Benda sekitar.',
+    keywords: ['this', 'that', 'what', 'who', 'whose', 'book', 'pen'],
+    forcedContent: []
   },
   {
-    id: 'ch3_places_direction',
-    title: 'Chap 3: Places & Locations',
-    // Focus: Koko/Soko/Asoko, Where is...?, Elevator, Toilet
-    keywords: ['here', 'there', 'where', 'school', 'toilet', 'room', 'house', 'station', 'country', 'classroom', 'office', 'floor', 'stairs'],
+    id: 'day3_locations',
+    title: 'Hari 3: Tempat & Lokasi',
+    description: 'Di sini, Di sana, Sekolah, Rumah.',
+    keywords: ['here', 'there', 'where', 'school', 'house', 'room'],
+    forcedContent: []
   },
   {
-    id: 'ch4_time_movement',
-    title: 'Chap 4: Time & Movement',
-    // Focus: Time, Hours, Days, Go/Come/Return (Iku/Kuru/Kaeru)
-    keywords: ['time', 'go', 'come', 'return', 'school', 'supermarket', 'train', 'bus', 'airplane', 'taxi', 'bicycle', 'walk', 'friend', 'year', 'month', 'date', 'birthday', 'today', 'tomorrow'],
+    id: 'day4_time',
+    title: 'Hari 4: Waktu',
+    description: 'Jam, Hari, dan Tanggal.',
+    keywords: ['time', 'now', 'today', 'tomorrow', 'yesterday'],
+    forcedContent: []
   },
   {
-    id: 'ch5_verbs_daily',
-    title: 'Chap 5: Daily Routines',
-    // Focus: Masu form verbs, Transitive verbs (Taberu, Nomu, etc)
-    keywords: ['eat', 'drink', 'smoke', 'read', 'write', 'listen', 'watch', 'buy', 'take', 'do', 'study', 'meet', 'breakfast', 'lunch', 'dinner', 'bread', 'water', 'tea', 'movie', 'letter', 'picture'],
-  },
-  {
-    id: 'ch6_adjectives',
-    title: 'Chap 6: Describing Things',
-    // Focus: I-Adjectives & Na-Adjectives (Handsome, Kind, Hot, Cold)
-    keywords: ['handsome', 'beautiful', 'quiet', 'lively', 'kind', 'healthy', 'famous', 'big', 'small', 'new', 'old', 'good', 'bad', 'hot', 'cold', 'difficult', 'easy', 'expensive', 'cheap', 'interesting', 'delicious', 'busy'],
-  },
-  {
-    id: 'ch7_giving_receiving',
-    title: 'Chap 7: Giving & Receiving',
-    // Focus: Agemasu, Moraimasu, Kuremasu / Tools (de particle)
-    keywords: ['give', 'receive', 'present', 'card', 'flower', 'chocolate', 'spoon', 'fork', 'chopsticks', 'hand', 'scissors', 'paper', 'send', 'cut'],
-  },
-  {
-    id: 'ch8_existence',
-    title: 'Chap 8: Existence & Position',
-    // Focus: Arimasu/Imasu (There is...), Inside, Outside, Front, Back
-    keywords: ['exist', 'there is', 'have', 'understand', 'like', 'dislike', 'cat', 'dog', 'tree', 'box', 'desk', 'chair', 'bed', 'top', 'bottom', 'inside', 'outside', 'front', 'back', 'right', 'left'],
-  },
-  {
-    id: 'ch9_counters_quantities',
-    title: 'Chap 9: Counters & Numbers',
-    // Focus: Hitotsu/Futatsu, -mai, -dai, -nin, Period of time
-    keywords: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'hundred', 'thousand', 'how many', 'how much', 'apple', 'orange', 'sandwich', 'stamp', 'postcard', 'brother', 'sister'],
-  },
-  {
-    id: 'ch10_desire_motion',
-    title: 'Chap 10: Review & Travel',
-    // Focus: Want, Motion purpose (mi ni ikimasu)
-    keywords: ['want', 'painful', 'head', 'stomach', 'fever', 'sickness', 'medicine', 'trip', 'travel', 'sea', 'hotel', 'swimming', 'festival', 'play', 'sing', 'tired'],
+    id: 'day5_actions',
+    title: 'Hari 5: Kegiatan Sehari-hari',
+    description: 'Makan, Minum, Tidur.',
+    keywords: ['eat', 'drink', 'sleep', 'read', 'listen'],
+    forcedContent: []
   }
 ];
 
@@ -292,7 +279,10 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
   const chapterBuckets: Record<string, ContentItem[]> = {};
 
   // Initialize buckets
-  TOPICS.forEach(t => chapterBuckets[t.id] = []);
+  DAYS.forEach(t => {
+      // Start with Forced Content (Manual Curriculum)
+      chapterBuckets[t.id] = [...(t.forcedContent as any[])];
+  });
   chapterBuckets['general'] = []; // Fallback bucket
 
   // --- Helper to inject Sensei Content ---
@@ -302,13 +292,13 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       let context = undefined;
 
       if (item.japanese.includes('こんにちは')) {
-         context = { japanese: '先生、こんにちは！', english: 'Hello, teacher!' };
+         context = { japanese: '先生、こんにちは！', english: 'Halo, Sensei!' };
       } else if (item.japanese.includes('ありがとう')) {
-         context = { japanese: 'プレゼントをありがとう。', english: 'Thank you for the present.' };
+         context = { japanese: 'プレゼントをありがとう。', english: 'Terima kasih atas hadiahnya.' };
       } else if (item.japanese.includes('私')) {
-         context = { japanese: '私は学生です。', english: 'I am a student.' };
+         context = { japanese: '私は学生です。', english: 'Saya adalah murid.' };
       } else if (item.japanese.includes('先生')) {
-         context = { japanese: '田中先生は優しいです。', english: 'Ms. Tanaka is kind.' };
+         context = { japanese: '田中先生は優しいです。', english: 'Tanaka sensei baik hati.' };
       }
 
       if (!context) {
@@ -318,18 +308,18 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       if (context) item.context = context;
     }
 
-    // B. Add Mnemonics for Kanji (Visual Imagination)
+    // B. Add Mnemonics for Kanji
     if (item.kind === 'kanji') {
-       if (item.japanese === '一') item.mnemonic = 'Imagine ONE finger holding up the sky.';
-       if (item.japanese === '二') item.mnemonic = 'TWO lines, the earth and the sky.';
-       if (item.japanese === '三') item.mnemonic = 'THREE layers of clouds.';
-       if (item.japanese === '人') item.mnemonic = 'A PERSON walking with legs wide apart.';
-       if (item.japanese === '木') item.mnemonic = 'A TREE with a trunk and spreading branches.';
-       if (item.japanese === '休') item.mnemonic = 'A PERSON (人) leaning against a TREE (木) to REST.';
-       if (item.japanese === '日') item.mnemonic = 'The SUN is a box of light.';
-       if (item.japanese === '口') item.mnemonic = 'An open MOUTH.';
-       if (item.japanese === '山') item.mnemonic = 'Three peaks of a MOUNTAIN.';
-       if (item.japanese === '川') item.mnemonic = 'Water flowing in a RIVER.';
+       if (item.japanese === '一') item.mnemonic = 'Satu Jari menunjuk ke langit.';
+       if (item.japanese === '二') item.mnemonic = 'Dua garis: Langit dan Bumi.';
+       if (item.japanese === '三') item.mnemonic = 'Tiga lapisan awan.';
+       if (item.japanese === '人') item.mnemonic = 'ORANG yang sedang berjalan kaki.';
+       if (item.japanese === '木') item.mnemonic = 'POHON dengan batang dan ranting.';
+       if (item.japanese === '休') item.mnemonic = 'ORANG (人) bersandar di POHON (木) untuk ISTIRAHAT.';
+       if (item.japanese === '日') item.mnemonic = 'MATAHARI berbentuk kotak.';
+       if (item.japanese === '口') item.mnemonic = 'MULUT yang terbuka.';
+       if (item.japanese === '山') item.mnemonic = 'Tiga puncak GUNUNG.';
+       if (item.japanese === '川') item.mnemonic = 'Air mengalir d SUNGAI.';
     }
 
     return item;
@@ -337,20 +327,26 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
 
   // 3. Distribute Vocabulary
   rawVocab.forEach(d => {
-    // Determine display: strict level compliance
     const displayJapanese = isKanjiAllowed(d.kanji) ? (d.kanji !== d.kana ? `${d.kanji} (${d.kana})` : d.kana) : d.kana;
 
     let item: ContentItem = {
-      japanese: displayJapanese, // Use Kana if kanji is too hard
+      japanese: displayJapanese,
       romaji: d.romaji,
-      english: d.english,
+      english: d.english, // Will need translation later, but keeping as is for match
       kind: 'vocabulary'
     };
 
-    const foundTopic = TOPICS.find(t => matchesTopic(d.english, t.keywords));
+    const foundTopic = DAYS.find(t => matchesTopic(d.english, t.keywords));
     const topicId = foundTopic ? foundTopic.id : 'general';
-    item = enrichItem(item, level, topicId);
-    chapterBuckets[topicId].push(item);
+
+    // Avoid duplicates if already in forced content
+    const bucket = chapterBuckets[topicId] || chapterBuckets['general'];
+    const exists = bucket.some(b => b.japanese === item.japanese);
+
+    if (!exists) {
+        item = enrichItem(item, level, topicId);
+        bucket.push(item);
+    }
   });
 
   // 4. Distribute Kanji
@@ -363,10 +359,17 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       kind: 'kanji'
     };
 
-    const foundTopic = TOPICS.find(t => matchesTopic(meaningStr, t.keywords));
+    const foundTopic = DAYS.find(t => matchesTopic(meaningStr, t.keywords));
     const topicId = foundTopic ? foundTopic.id : 'general';
-    item = enrichItem(item, level, topicId);
-    chapterBuckets[topicId].push(item);
+
+    // Check dupe
+    const bucket = chapterBuckets[topicId] || chapterBuckets['general'];
+    const exists = bucket.some(b => b.japanese === item.japanese);
+
+    if (!exists) {
+        item = enrichItem(item, level, topicId);
+        bucket.push(item);
+    }
   });
 
   // 5. Distribute Grammar
@@ -378,53 +381,52 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       kind: 'grammar'
     };
 
-    // Enrich with Sensei Data
     item = enrichGrammar(item);
 
-    // Try to find a home for it
-    const foundTopic = TOPICS.find(t => matchesTopic(g.meaning, t.keywords));
-
+    const foundTopic = DAYS.find(t => matchesTopic(g.meaning, t.keywords));
     if (foundTopic) {
-       chapterBuckets[foundTopic.id].push(item);
+        chapterBuckets[foundTopic.id].push(item);
     } else {
-       chapterBuckets['general'].push(item);
+        chapterBuckets['general'].push(item);
     }
   });
 
   // 6. Build Final Chapters List
   const chapters: Chapter[] = [];
 
-  // A. Thematic Chapters
-  TOPICS.forEach((topic, idx) => {
-    const items = chapterBuckets[topic.id];
-    // Relaxed constraint: Create chapter if > 2 item (to ensure grammar/vocab are modally present even if small)
-    if (items.length > 2) {
+  // A. Thematic Chapters (Days)
+  DAYS.forEach((day, idx) => {
+    const items = chapterBuckets[day.id];
+    if (items.length > 0) {
        chapters.push({
-         id: `${level}-unit-${idx + 1}`,
-         title: `Unit ${chapters.length + 1}: ${topic.title}`,
-         description: `Topics: ${topic.keywords.slice(0, 3).join(', ')}...`,
+         id: `${level}-day-${idx + 1}`,
+         title: day.title,
+         description: day.description,
          content: items,
-         quiz: generateQuizForChapter(items, `${level}-unit-${idx + 1}`)
+         quiz: generateQuizForChapter(items, `${level}-day-${idx + 1}`)
        });
-    } else {
-      chapterBuckets['general'].push(...items);
     }
   });
 
-  // B. General Chapters
+  // B. General Chapters (Sisa Materi / Extra Days)
   const generalItems = chapterBuckets['general'];
   const shuffledGeneral = [...generalItems].sort(() => 0.5 - Math.random());
-  const chunkSize = 25;
+  const chunkSize = 20; // Smaller chunks for daily digestion
 
-  for (let i = 0; i < shuffledGeneral.length; i += chunkSize) {
-    const chunk = shuffledGeneral.slice(i, i + chunkSize);
-    const unitNum = chapters.length + 1;
+  // Limit to max 5 extra days for now to avoid overwhelming user
+  const maxGeneralChapters = 5;
+  const generalChapterCount = Math.min(Math.ceil(shuffledGeneral.length / chunkSize), maxGeneralChapters);
+
+  for (let i = 0; i < generalChapterCount; i++) {
+    const startIndex = i * chunkSize;
+    const chunk = shuffledGeneral.slice(startIndex, startIndex + chunkSize);
+    const dayNum = chapters.length + 1;
     chapters.push({
-      id: `${level}-unit-${unitNum}`,
-      title: `Unit ${unitNum}: General Practice`,
-      description: `Mixed practice of Vocabulary, Kanji, and Grammar.`,
+      id: `${level}-day-${dayNum}`,
+      title: `Hari ${dayNum}: Latihan Campuran`,
+      description: `Latihan kosakata dan kanji tambahan.`,
       content: chunk,
-      quiz: generateQuizForChapter(chunk, `${level}-unit-${unitNum}`)
+      quiz: generateQuizForChapter(chunk, `${level}-day-${dayNum}`)
     });
   }
 
@@ -435,7 +437,8 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
     description: `Complete Master Course. ${chapters.length} Units covering Vocabulary, Kanji, and Grammar.`,
     icon: level === 'N5' ? '🌱' : (level === 'N4' ? '🌿' : '🌳'),
     color: color,
-    chapters: chapters
+    chapters: chapters,
+    unitCount: chapters.length
   };
 };
 
