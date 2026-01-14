@@ -24,6 +24,8 @@ export type ContentItem = {
     japanese: string;
     english: string;
   };
+  grammarStructure?: string;
+  grammarExplanation?: string;
 };
 
 export type Chapter = {
@@ -118,12 +120,12 @@ const matchesTopic = (text: string, keywords: string[]): boolean => {
 const getTemplateContext = (item: ContentItem): { japanese: string, english: string } | undefined => {
   // Simple heuristic based on meaning or type
   // Note: effectively we need 'part of speech' data for perfect sentences, but we'll try best-effort here.
-  
+
   const lowerEng = item.english.toLowerCase();
-  
+
   // Nouns (Greetings/Intro/objects)
   if (['hello', 'good morning', 'goodbye'].some(k => lowerEng.includes(k))) return undefined; // Already handled or unique
-  
+
   // Basic Noun Template: "This is a [X]"
   // We can't easily detect nouns vs verbs without data, but let's assume if it doesn't look like a verb (to X)...
   if (!lowerEng.startsWith('to ')) {
@@ -139,7 +141,7 @@ const getTemplateContext = (item: ContentItem): { japanese: string, english: str
      // Remove 'to '
      const action = item.english.replace('to ', '');
      return {
-       japanese: `毎日${item.japanese}ます。`, // Dictionary form + masu is wrong, but we lack conjugation engine here. 
+       // japanese: `毎日${item.japanese}ます。`, // Dictionary form + masu is wrong, but we lack conjugation engine here.
        // Ideally we need the polite form in our dictionary. Assuming dictionary items might be in dict form.
        // Let's stick to "Dictionary form" usage or basic distinct patterns if possible.
        // For N5, maybe just "Basic Sentence":
@@ -147,7 +149,7 @@ const getTemplateContext = (item: ContentItem): { japanese: string, english: str
        english: `I often ${action}.`
      };
   }
-  
+
   return undefined;
 };
 
@@ -166,10 +168,10 @@ const generateQuizForChapter = (items: ContentItem[], chapterId: string): Questi
     if (Math.random() > 0.2) {
        let targetJapanese = item.context ? item.context.japanese : `これは${item.japanese}です`;
        let targetEnglish = item.context ? item.context.english : `This is ${item.english}`;
-       
+
        // Create chunks
        let chunks: string[] = [];
-       
+
        if (targetJapanese.includes('これは')) {
           chunks = ['これは', item.japanese, 'です'];
        } else if (targetJapanese.includes('先生、')) {
@@ -183,14 +185,14 @@ const generateQuizForChapter = (items: ContentItem[], chapterId: string): Questi
           if (parts.length > 1) chunks = parts;
           else chunks = [targetJapanese];
        }
-       
+
        // If chunks are too simple (1 chunk), split chars for challenge? No, too hard.
-       // Add some distractors? 
+       // Add some distractors?
        if (chunks.length < 3) {
           chunks.push('よ'); // Random particle distractor
           chunks.push('ね');
        }
-       
+
        // Real shuffle
        const shuffledChunks = [...chunks].sort(() => 0.5 - Math.random());
 
@@ -210,9 +212,9 @@ const generateQuizForChapter = (items: ContentItem[], chapterId: string): Questi
       .sort(() => 0.5 - Math.random())
       .slice(0, 3)
       .map(i => i.english);
-    
+
     while (distractors.length < 3) {
-       distractors.push('Something else'); 
+       distractors.push('Something else');
     }
 
     const options = [item.english, ...distractors].sort(() => 0.5 - Math.random());
@@ -227,21 +229,7 @@ const generateQuizForChapter = (items: ContentItem[], chapterId: string): Questi
   });
 };
 
-export type ContentItem = {
-  japanese: string;
-  romaji: string;
-  english: string;
-  kind?: 'vocabulary' | 'kanji' | 'grammar';
-  audio?: string;
-  mnemonic?: string;
-  context?: {
-    japanese: string;
-    english: string;
-  };
-  // New Sensei Grammar Features
-  grammarStructure?: string;   // e.g. "Verb[te-form] + kudasai"
-  grammarExplanation?: string; // Detailed breakdown
-};
+
 
 // ... (Question, Chapter, Lesson, TOPICS... these are fine, keep them implied or use startLine below appropriately)
 // Assuming we are replacing from AFTER `TOPICS` constant roughly, or just updating createIntegratedCourse and ContentItem.
@@ -302,7 +290,7 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
 
   // 2. Map Keyed Buckets
   const chapterBuckets: Record<string, ContentItem[]> = {};
-  
+
   // Initialize buckets
   TOPICS.forEach(t => chapterBuckets[t.id] = []);
   chapterBuckets['general'] = []; // Fallback bucket
@@ -312,7 +300,7 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
     // A. Add Context Sentences for Vocabulary
     if (item.kind === 'vocabulary') {
       let context = undefined;
-      
+
       if (item.japanese.includes('こんにちは')) {
          context = { japanese: '先生、こんにちは！', english: 'Hello, teacher!' };
       } else if (item.japanese.includes('ありがとう')) {
@@ -321,8 +309,8 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
          context = { japanese: '私は学生です。', english: 'I am a student.' };
       } else if (item.japanese.includes('先生')) {
          context = { japanese: '田中先生は優しいです。', english: 'Ms. Tanaka is kind.' };
-      } 
-      
+      }
+
       if (!context) {
          context = getTemplateContext(item);
       }
@@ -358,7 +346,7 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       english: d.english,
       kind: 'vocabulary'
     };
-    
+
     const foundTopic = TOPICS.find(t => matchesTopic(d.english, t.keywords));
     const topicId = foundTopic ? foundTopic.id : 'general';
     item = enrichItem(item, level, topicId);
@@ -389,13 +377,13 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
       english: g.meaning,
       kind: 'grammar'
     };
-    
+
     // Enrich with Sensei Data
     item = enrichGrammar(item);
 
     // Try to find a home for it
     const foundTopic = TOPICS.find(t => matchesTopic(g.meaning, t.keywords));
-    
+
     if (foundTopic) {
        chapterBuckets[foundTopic.id].push(item);
     } else {
@@ -410,7 +398,7 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
   TOPICS.forEach((topic, idx) => {
     const items = chapterBuckets[topic.id];
     // Relaxed constraint: Create chapter if > 2 item (to ensure grammar/vocab are modally present even if small)
-    if (items.length > 2) { 
+    if (items.length > 2) {
        chapters.push({
          id: `${level}-unit-${idx + 1}`,
          title: `Unit ${chapters.length + 1}: ${topic.title}`,
@@ -427,7 +415,7 @@ const createIntegratedCourse = (level: string, color: string): Lesson => {
   const generalItems = chapterBuckets['general'];
   const shuffledGeneral = [...generalItems].sort(() => 0.5 - Math.random());
   const chunkSize = 25;
-  
+
   for (let i = 0; i < shuffledGeneral.length; i += chunkSize) {
     const chunk = shuffledGeneral.slice(i, i + chunkSize);
     const unitNum = chapters.length + 1;
