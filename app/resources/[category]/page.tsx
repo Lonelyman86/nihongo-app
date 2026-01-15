@@ -89,7 +89,7 @@ export default function ResourcePage({ params }: { params: { category: string } 
           youtube: [], // No data for now
           latihan: "Practice Quiz"
       };
-  }).filter(Boolean) || [];
+  }).filter((item): item is NonNullable<typeof item> => item !== null) || [];
 
   return (
     <div className="min-h-screen bg-[#191919] text-[#d4d4d4] font-sans selection:bg-[#2383e2] selection:text-white pb-20">
