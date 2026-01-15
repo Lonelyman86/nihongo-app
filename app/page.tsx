@@ -8,6 +8,7 @@ import { searchDatabase, SearchResults } from './actions/search';
 import { getCoursesList, CourseSummary } from './actions/courses';
 import { useProgress } from '@/lib/useProgress';
 import { cn } from '@/lib/utils';
+import { AnalogClock } from '@/components/AnalogClock';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -61,6 +62,10 @@ export default function Home() {
                     <Zap className="w-4 h-4 fill-[var(--secondary)]/20" /> {progress.xp} XP
                 </div>
              </div>
+
+             {/* Analog Clock */}
+             <AnalogClock />
+
              <div className="w-10 h-10 rounded-full bg-[#f0f0f0] flex items-center justify-center border border-gray-200 shadow-sm text-gray-600">
                 <User className="w-5 h-5" />
              </div>
