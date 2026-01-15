@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { courses } from '@/data/content';
 
 export default function ResourcePage({ params }: { params: { category: string } }) {
   // Timer State
@@ -35,7 +36,7 @@ export default function ResourcePage({ params }: { params: { category: string } 
     return `${h}:${m}:${s}`;
   };
 
-import { courses } from '@/data/content';
+
 
   // Determine Category Filter
   const categoryMap: Record<string, string> = {
