@@ -142,10 +142,26 @@ export default function Home() {
             <div className="col-span-1 md:col-span-4 flex flex-col gap-4">
                  {/* Clock Box */}
                  <div className="bg-white p-6 flex flex-col items-center justify-center aspect-square shadow-sm relative overflow-hidden">
-                     {/* Clean Clock */}
-                    <div className="scale-150 transform">
-                         <AnalogClock />
-                    </div>
+                     <div className="flex gap-4 items-center justify-center w-full h-full">
+                        {/* Indonesia Clock */}
+                        <div className="flex flex-col items-center gap-2">
+                            <div className="w-24 h-24 md:w-32 md:h-32">
+                                <AnalogClock timezoneOffset={7} />
+                            </div>
+                            <span className="text-xs font-bold text-gray-400 tracking-widest uppercase">Indonesia</span>
+                        </div>
+
+                         {/* Separator / Divider */}
+                         <div className="h-16 w-px bg-gray-100 hidden md:block"></div>
+
+                        {/* Japan Clock */}
+                        <div className="flex flex-col items-center gap-2">
+                             <div className="w-24 h-24 md:w-32 md:h-32">
+                                <AnalogClock timezoneOffset={9} />
+                            </div>
+                            <span className="text-xs font-bold text-gray-400 tracking-widest uppercase">Japan</span>
+                        </div>
+                     </div>
                  </div>
 
                  {/* Greeting Box */}

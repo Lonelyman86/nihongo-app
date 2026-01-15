@@ -2,34 +2,31 @@
 
 import { useEffect, useState } from 'react';
 
-export function AnalogClock() {
+interface AnalogClockProps {
+  timezoneOffset?: number; // UTC offset in hours (e.g., 7 for WIB, 9 for JST)
+  className?: string;
+}
+
+export function AnalogClock({ timezoneOffset = 7, className = "w-full h-full" }: AnalogClockProps) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    // Update every frame for smooth second hand if we want, or simply interval
-    // For "smooth" feel on second hand, requestAnimationFrame is better,
-    // but simple interval is easier. Let's try interval with smaller ms for semi-smooth or just 1000ms.
-    // The requirement didn't specify smooth, but I put it in plan.
-    // Let's stick to standard 1s update for simplicity and performance first,
-    // or maybe 100ms to allow CSS transition to handle smoothness if we want.
-
-    // Actually, CSS transition is best for smooth movement.
     const timer = setInterval(() => {
       // Create date object for current time
       const now = new Date();
 
-      // Convert to WIB (UTC+7)
+      // Convert to target timezone
       // Get UTC time in ms
       const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
 
-      // Create new Date object for WIB (UTC + 7 hours)
-      const wibTime = new Date(utc + (3600000 * 7));
+      // Create new Date object for target timezone
+      const targetTime = new Date(utc + (3600000 * timezoneOffset));
 
-      setTime(wibTime);
+      setTime(targetTime);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [timezoneOffset]);
 
   const seconds = time.getSeconds();
   const minutes = time.getMinutes();
@@ -41,7 +38,7 @@ export function AnalogClock() {
   const hourDegrees = ((hours + minutes / 60) / 12) * 360;
 
   return (
-    <div className="relative w-10 h-10" aria-label="Analog Clock">
+    <div className={`relative ${className}`} aria-label="Analog Clock">
       {/* Clock Face */}
       <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
         {/* Background */}
