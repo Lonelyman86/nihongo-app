@@ -35,44 +35,47 @@ export default function ResourcePage({ params }: { params: { category: string } 
     return `${h}:${m}:${s}`;
   };
 
-  // Dummy Data to match screenshot
-  const scheduleData = [
-    {
-      name: "Pengenalan Huruf Jepang",
-      materi: [
-        "1. Hiragana",
-        "2. Katakana",
-        "3. Kanji"
-      ],
-      link: "Hiragana, Katakana ...",
-      youtube: ["Hiragana", "Katakana"],
-      latihan: "HiraganaKatakana..."
-    },
-    {
-      name: "Partikel Bahasa Jepang",
-      materi: [
-        "1. Wa - は", "2. Ga - が", "3. Ka - か", "4. O - を",
-        "5. No - の", "6. Ya - や", "7. Yori - より", "8. To - と",
-        "9. Ni - に", "10. Mo - も", "11. De - で", "12. E - へ"
-      ],
-      link: [
-        "1. Wa - は", "2. Ga - が", "3. Ka - か", "4. O - を",
-        "5. No - の", "6. Ya - や", "7. Yori - より", "8. To - と"
-      ],
-      youtube: "https://www.youtu...",
-      latihan: ""
-    },
-    {
-      name: "Kata Ganti",
-      materi: [
-          "1. Kata Ganti Orang Pertama Tunggal (Saya, Aku)",
-          "2. Kata Ganti Orang Kedua Tunggal"
-      ],
-      link: "Kata Ganti dalam ...",
-      youtube: "https://www.youtu...",
-      latihan: ""
-    }
-  ];
+import { courses } from '@/data/content';
+
+  // Determine Category Filter
+  const categoryMap: Record<string, string> = {
+      'bunpou': 'grammar',
+      'kanji': 'kanji',
+      'vocab': 'vocabulary',
+      'goi': 'vocabulary',
+      'practice': 'all'
+  };
+
+  const currentKind = categoryMap[params.category] || 'all';
+  const n5Course = courses.find(c => c.level === 'N5');
+
+  // Transform Data
+  const scheduleData = n5Course?.chapters.map(chapter => {
+      // Filter content for this chapter
+      const relevantContent = chapter.content.filter(item => {
+          if (currentKind === 'all') return true;
+          return item.kind === currentKind;
+      });
+
+      if (relevantContent.length === 0) return null;
+
+      // Group/Format for Display
+      const materiList = relevantContent.map(item => {
+          if (item.kind === 'grammar') return `${item.japanese} (${item.english})`;
+          if (item.kind === 'kanji') return `${item.japanese} : ${item.english.split('|')[0]}`;
+          return `${item.japanese} (${item.romaji}) - ${item.english}`;
+      }).slice(0, 10); // Limit to 10 items per day to keep table clean
+
+      if (relevantContent.length > 10) materiList.push(`... ${relevantContent.length - 10} more items`);
+
+      return {
+          name: chapter.title, // e.g., "Hari 1: Perkenalan"
+          materi: materiList,
+          link: `Start Lesson`,
+          youtube: [], // No data for now
+          latihan: "Practice Quiz"
+      };
+  }).filter(Boolean) || [];
 
   return (
     <div className="min-h-screen bg-[#191919] text-[#d4d4d4] font-sans selection:bg-[#2383e2] selection:text-white pb-20">
