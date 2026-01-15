@@ -174,6 +174,62 @@ export default function Home() {
 
         </div>
 
+        {/* Navigation Section */}
+        <section className="mb-12">
+             {/* Header Bar */}
+             <div className="bg-[#1a2e1a] text-white p-3 rounded-lg flex items-center gap-3 mb-6 shadow-md border-l-4 border-lime-400">
+                 <span className="transform rotate-45 text-lime-400 font-bold">☍</span>
+                 <h2 className="font-bold italic tracking-wider lowercase text-lg">navigation</h2>
+             </div>
+
+             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                 {/* Cards Grid (Span 9) */}
+                 <div className="col-span-1 md:col-span-9 grid grid-cols-2 md:grid-cols-3 gap-4">
+
+                     {[
+                        { title: 'N5 - Bunpou (Grammar)', img: '/nav_grammar.png', icon: '🍵' },
+                        { title: 'N5 - Choukai (Listening)', img: '/nav_listening.png', icon: '🎋' },
+                        { title: 'N5 - Dokkai (Reading)', img: '/nav_reading.png', icon: '📖' },
+                        { title: 'N5 - Kanji', img: '/nav_kanji.png', icon: '🉐' },
+                        { title: 'N5 - Goi (Vocabulary)', img: '/nav_vocab.png', icon: '🗣️' },
+                        { title: 'N5 - JLPT Practice', img: '/nav_practice.png', icon: '📝' }
+                     ].map((item, idx) => (
+                         <div key={idx} className="group cursor-pointer">
+                             {/* Image Container */}
+                             <div className="aspect-square w-full overflow-hidden rounded-t-lg relative">
+                                 <img
+                                    src={item.img}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                 />
+                                 {/* Hover Overlay */}
+                                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                             </div>
+                             {/* Label Bar */}
+                             <div className="bg-[#1a2e1a] text-gray-200 p-2 text-sm font-medium flex items-center gap-2 rounded-b-lg border-t border-[#1a2e1a] group-hover:bg-[#2f4f2f] transition-colors">
+                                 <span className="opacity-70 text-xs">{item.icon}</span>
+                                 <span className="truncate">{item.title}</span>
+                             </div>
+                         </div>
+                     ))}
+                 </div>
+
+                 {/* Tea Icon Decoration (Span 3) */}
+                 <div className="hidden md:flex col-span-3 flex-col items-center justify-start pt-12">
+                     <motion.div
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        className="text-9xl filter drop-shadow-xl opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                     >
+                         🍵
+                     </motion.div>
+                     <p className="mt-4 text-center text-gray-400 text-sm font-mono italic">
+                        "Drink tea, study hard."
+                     </p>
+                 </div>
+             </div>
+        </section>
+
         {/* BENTO GRID LAYOUT */}
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6 mb-12 auto-rows-[minmax(180px,auto)]">
 
