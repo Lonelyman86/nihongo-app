@@ -88,6 +88,8 @@ export default function ResourcePage() {
       if (relevantContent.length > 10) materiList.push(`... ${relevantContent.length - 10} more items`);
 
       return [{
+          id: chapter.id,
+          courseId: n5Course.id,
           name: chapter.title, // e.g., "Hari 1: Perkenalan"
           materi: materiList,
           link: `Start Lesson`,
@@ -206,19 +208,12 @@ export default function ResourcePage() {
 
                         {/* Link Materi */}
                         <div className="col-span-2">
-                             {Array.isArray(row.link) ? (
-                                 <div className="flex flex-wrap gap-1">
-                                     {row.link.map((l, i) => (
-                                         <a href="#" key={i} className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer truncate max-w-full hover:text-blue-300">
-                                            {l.split(' - ')[0]}...
-                                         </a>
-                                     ))}
-                                 </div>
-                             ) : (
-                                 <a href="#" className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer hover:text-blue-300">
-                                    {row.link}
-                                 </a>
-                             )}
+                             <Link
+                                href={`/lesson/${row.courseId}?chapterId=${row.id}`}
+                                className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer hover:text-blue-300"
+                             >
+                                {row.link}
+                             </Link>
                         </div>
 
                         {/* Youtube */}
@@ -241,9 +236,12 @@ export default function ResourcePage() {
                         {/* Latihan */}
                         <div className="col-span-2">
                             {row.latihan && (
-                                <span className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-green-400 cursor-pointer">
+                                <Link
+                                    href={`/lesson/${row.courseId}?chapterId=${row.id}&mode=quiz`}
+                                    className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-green-400 cursor-pointer hover:text-green-300"
+                                >
                                     {row.latihan}
-                                </span>
+                                </Link>
                             )}
                         </div>
                     </div>
