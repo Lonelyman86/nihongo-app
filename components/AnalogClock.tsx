@@ -15,7 +15,17 @@ export function AnalogClock() {
 
     // Actually, CSS transition is best for smooth movement.
     const timer = setInterval(() => {
-      setTime(new Date());
+      // Create date object for current time
+      const now = new Date();
+
+      // Convert to WIB (UTC+7)
+      // Get UTC time in ms
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+
+      // Create new Date object for WIB (UTC + 7 hours)
+      const wibTime = new Date(utc + (3600000 * 7));
+
+      setTime(wibTime);
     }, 1000);
 
     return () => clearInterval(timer);

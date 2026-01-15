@@ -63,8 +63,7 @@ export default function Home() {
                 </div>
              </div>
 
-             {/* Analog Clock */}
-             <AnalogClock />
+
 
              <div className="w-10 h-10 rounded-full bg-[#f0f0f0] flex items-center justify-center border border-gray-200 shadow-sm text-gray-600">
                 <User className="w-5 h-5" />
@@ -73,11 +72,16 @@ export default function Home() {
       </header>
 
       <div className="max-w-7xl mx-auto">
-        <section className="mb-12 text-center md:text-left">
-            <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800">
-              Okaeri, <span className="text-[var(--primary)]">Sensei!</span>
-            </h2>
-            <p className="text-gray-500 text-lg font-medium">Siap melanjutkan petualangan hari ini?</p>
+        <section className="mb-12 flex justify-between items-center text-center md:text-left">
+            <div>
+                <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800">
+                  Okaeri, <span className="text-[var(--primary)]">Sensei!</span>
+                </h2>
+                <p className="text-gray-500 text-lg font-medium">Siap melanjutkan petualangan hari ini?</p>
+            </div>
+            <div className="hidden md:block scale-150 mr-8">
+                <AnalogClock />
+            </div>
         </section>
 
         {/* BENTO GRID LAYOUT */}
