@@ -209,7 +209,7 @@ export default function ResourcePage() {
                         {/* Link Materi */}
                         <div className="col-span-2">
                              <Link
-                                href={`/lesson/${row.courseId}?chapterId=${row.id}`}
+                                href={`/resources/preview/${row.id}`}
                                 className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer hover:text-blue-300"
                              >
                                 {row.link}
