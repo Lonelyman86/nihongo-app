@@ -6,7 +6,12 @@ import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { courses } from '@/data/content';
 
-export default function ResourcePage({ params }: { params: { category: string } }) {
+import { useParams } from 'next/navigation';
+
+export default function ResourcePage() {
+  const params = useParams();
+  const category = params.category as string;
+
   // Timer State
   const [timeLeft, setTimeLeft] = useState(2 * 60 * 60); // 2 hours in seconds
   const [isActive, setIsActive] = useState(false);
@@ -59,19 +64,19 @@ export default function ResourcePage({ params }: { params: { category: string } 
       'practice': 'JLPT Practice'
   };
 
-  const currentKind = categoryMap[params.category] || 'unknown';
-  const displayTitle = categoryTitles[params.category] || 'Basic Japan';
+  const currentKind = categoryMap[category] || 'unknown';
+  const displayTitle = categoryTitles[category] || 'Basic Japan';
   const n5Course = courses.find(c => c.level === 'N5');
 
   // Transform Data
-  const scheduleData = n5Course?.chapters.map(chapter => {
+  const scheduleData = n5Course?.chapters.flatMap(chapter => {
       // Filter content for this chapter
       const relevantContent = chapter.content.filter(item => {
           if (currentKind === 'all') return true;
           return item.kind === currentKind;
       });
 
-      if (relevantContent.length === 0) return null;
+      if (relevantContent.length === 0) return [];
 
       // Group/Format for Display
       const materiList = relevantContent.map(item => {
@@ -82,14 +87,14 @@ export default function ResourcePage({ params }: { params: { category: string } 
 
       if (relevantContent.length > 10) materiList.push(`... ${relevantContent.length - 10} more items`);
 
-      return {
+      return [{
           name: chapter.title, // e.g., "Hari 1: Perkenalan"
           materi: materiList,
           link: `Start Lesson`,
-          youtube: [], // No data for now
+          youtube: [] as string[], // Explicitly type as string array
           latihan: "Practice Quiz"
-      };
-  }).filter((item): item is NonNullable<typeof item> => item !== null) || [];
+      }];
+  }) || [];
 
   return (
     <div className="min-h-screen bg-[#191919] text-[#d4d4d4] font-sans selection:bg-[#2383e2] selection:text-white pb-20">
