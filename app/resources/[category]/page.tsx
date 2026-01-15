@@ -43,10 +43,23 @@ import { courses } from '@/data/content';
       'kanji': 'kanji',
       'vocab': 'vocabulary',
       'goi': 'vocabulary',
+      'choukai': 'listening',
+      'dokkai': 'reading',
       'practice': 'all'
   };
 
-  const currentKind = categoryMap[params.category] || 'all';
+  const categoryTitles: Record<string, string> = {
+      'bunpou': 'Bunpou (Grammar)',
+      'kanji': 'Kanji',
+      'vocab': 'Goi (Vocabulary)',
+      'goi': 'Goi (Vocabulary)',
+      'choukai': 'Choukai (Listening)',
+      'dokkai': 'Dokkai (Reading)',
+      'practice': 'JLPT Practice'
+  };
+
+  const currentKind = categoryMap[params.category] || 'unknown';
+  const displayTitle = categoryTitles[params.category] || 'Basic Japan';
   const n5Course = courses.find(c => c.level === 'N5');
 
   // Transform Data
@@ -93,8 +106,8 @@ import { courses } from '@/data/content';
             <div className="text-6xl mb-4">
                 <img src="/nav_kanji.png" className="w-24 h-24 object-cover rounded-md" alt="icon" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Basic Japan (in Bahasa)
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 capitalize">
+                {displayTitle}
             </h1>
 
             {/* CALLOUT */}
