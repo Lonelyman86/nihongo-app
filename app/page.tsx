@@ -187,14 +187,14 @@ export default function Home() {
                  <div className="col-span-1 md:col-span-9 grid grid-cols-2 md:grid-cols-3 gap-4">
 
                      {[
-                        { title: 'N5 - Bunpou (Grammar)', img: '/nav_grammar.png', icon: '🍵' },
-                        { title: 'N5 - Choukai (Listening)', img: '/nav_listening.png', icon: '🎋' },
-                        { title: 'N5 - Dokkai (Reading)', img: '/nav_reading.png', icon: '📖' },
-                        { title: 'N5 - Kanji', img: '/nav_kanji.png', icon: '🉐' },
-                        { title: 'N5 - Goi (Vocabulary)', img: '/nav_vocab.png', icon: '🗣️' },
-                        { title: 'N5 - JLPT Practice', img: '/nav_practice.png', icon: '📝' }
+                        { title: 'N5 - Bunpou (Grammar)', img: '/nav_grammar.png', icon: '🍵', slug: 'bunpou' },
+                        { title: 'N5 - Choukai (Listening)', img: '/nav_listening.png', icon: '🎋', slug: 'choukai' },
+                        { title: 'N5 - Dokkai (Reading)', img: '/nav_reading.png', icon: '📖', slug: 'dokkai' },
+                        { title: 'N5 - Kanji', img: '/nav_kanji.png', icon: '🉐', slug: 'kanji' },
+                        { title: 'N5 - Goi (Vocabulary)', img: '/nav_vocab.png', icon: '🗣️', slug: 'vocab' },
+                        { title: 'N5 - JLPT Practice', img: '/nav_practice.png', icon: '📝', slug: 'practice' }
                      ].map((item, idx) => (
-                         <div key={idx} className="group cursor-pointer">
+                         <Link href={`/resources/${item.slug}`} key={idx} className="group cursor-pointer block">
                              {/* Image Container */}
                              <div className="aspect-square w-full overflow-hidden rounded-t-lg relative">
                                  <img
@@ -210,7 +210,7 @@ export default function Home() {
                                  <span className="opacity-70 text-xs">{item.icon}</span>
                                  <span className="truncate">{item.title}</span>
                              </div>
-                         </div>
+                         </Link>
                      ))}
                  </div>
 
