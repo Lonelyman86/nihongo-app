@@ -78,10 +78,10 @@ export default function ResourcePage({ params }: { params: { category: string } 
     <div className="min-h-screen bg-[#191919] text-[#d4d4d4] font-sans selection:bg-[#2383e2] selection:text-white pb-20">
 
       {/* Navbar Placeholder / Back Button */}
-      <div className="p-4 flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer w-fit" onClick={() => window.history.back()}>
+      <Link href="/" className="p-4 flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer w-fit">
           <ArrowLeft size={20} />
           <span className="text-sm">Back</span>
-      </div>
+      </Link>
 
       <div className="max-w-5xl mx-auto px-6 md:px-12 pt-8">
 
@@ -187,15 +187,15 @@ export default function ResourcePage({ params }: { params: { category: string } 
                              {Array.isArray(row.link) ? (
                                  <div className="flex flex-wrap gap-1">
                                      {row.link.map((l, i) => (
-                                         <span key={i} className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer truncate max-w-full">
+                                         <a href="#" key={i} className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer truncate max-w-full hover:text-blue-300">
                                             {l.split(' - ')[0]}...
-                                         </span>
+                                         </a>
                                      ))}
                                  </div>
                              ) : (
-                                 <span className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer">
+                                 <a href="#" className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-blue-400 underline cursor-pointer hover:text-blue-300">
                                     {row.link}
-                                 </span>
+                                 </a>
                              )}
                         </div>
 
@@ -204,15 +204,15 @@ export default function ResourcePage({ params }: { params: { category: string } 
                              {Array.isArray(row.youtube) ? (
                                  <div className="flex flex-wrap gap-1">
                                       {row.youtube.map((y, i) => (
-                                          <span key={i} className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-red-400 cursor-pointer">
+                                          <a href="#" key={i} className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-red-400 cursor-pointer hover:text-red-300">
                                               ▶ {y}
-                                          </span>
+                                          </a>
                                       ))}
                                  </div>
                              ) : (
-                                <span className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-red-400 cursor-pointer text-ellipsis overflow-hidden block">
+                                <a href="#" className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-red-400 cursor-pointer text-ellipsis overflow-hidden block hover:text-red-300">
                                    ▶ {row.youtube}
-                                </span>
+                                </a>
                              )}
                         </div>
 
