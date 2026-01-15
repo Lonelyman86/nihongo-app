@@ -72,17 +72,91 @@ export default function Home() {
       </header>
 
       <div className="max-w-7xl mx-auto">
-        <section className="mb-12 flex justify-between items-center text-center md:text-left">
-            <div>
-                <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-800">
-                  Okaeri, <span className="text-[var(--primary)]">Sensei!</span>
-                </h2>
-                <p className="text-gray-500 text-lg font-medium">Siap melanjutkan petualangan hari ini?</p>
+        {/* Notion-Style Header Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+
+            {/* COLUMN 1: Callouts (Span 5) */}
+            <div className="col-span-1 md:col-span-5 flex flex-col gap-4">
+                 {/* Callout 1 */}
+                 <div className="bg-[#2f4f4f] text-gray-100 p-4 rounded-md border-l-4 border-red-400 font-mono text-sm leading-relaxed shadow-sm">
+                    <div className="flex gap-3">
+                        <span className="text-red-400 transform rotate-45 select-none">📌</span>
+                        <div>
+                            <p className="font-bold mb-1 opacity-90">hi! welcome to DokuGaku :)</p>
+                            <p className="opacity-80">i hope you find it helpful/inspiring!</p>
+                        </div>
+                    </div>
+                 </div>
+
+                 {/* Callout 2 */}
+                 <div className="bg-[#2f4f4f] text-gray-100 p-4 rounded-md border-l-4 border-red-400 font-mono text-sm leading-relaxed shadow-sm flex-1">
+                    <div className="flex gap-3 h-full">
+                        <span className="text-red-400 transform rotate-45 select-none">📌</span>
+                        <div className="space-y-4">
+                            <p className="opacity-80">
+                                Selamat datang di dashboard belajar Jepang-mu.
+                                Kamu bisa melihat progress, mencari kosa kata, dan melanjutkan pelajaran dari sini.
+                            </p>
+                            <p className="opacity-80">
+                                "Perjalanan seribu mil dimulai dengan satu langkah."
+                                Ganbatte, Sensei!
+                            </p>
+                             <p className="text-xs text-yellow-200/80 mt-2">
+                                happy learning! &lt;3
+                            </p>
+                        </div>
+                    </div>
+                 </div>
+
+                 {/* Callout 3 */}
+                 <div className="bg-[#3e2f2f] text-gray-100 p-4 rounded-md border-l-4 border-red-400 font-mono text-sm leading-relaxed shadow-sm">
+                     <div className="flex gap-3">
+                        <span className="text-red-400 transform rotate-45 select-none">📌</span>
+                        <div>
+                             <p className="opacity-80 cursor-pointer hover:underline">
+                                Click a lesson below to start your journey &lt;3
+                            </p>
+                            <p className="opacity-60 text-xs">
+                                Klik pelajaran di bawah untuk memulai &lt;3
+                            </p>
+                        </div>
+                    </div>
+                 </div>
             </div>
-            <div className="hidden md:block scale-150 mr-8">
-                <AnalogClock />
+
+            {/* COLUMN 2: Image Collage (Span 3) */}
+            <div className="col-span-1 md:col-span-3 h-full min-h-[300px] relative rounded-none overflow-hidden group">
+                 <img
+                    src="/japanese_street.png"
+                    alt="Japanese Street"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                 />
+                 {/* Overlay Text */}
+                 <div className="absolute bottom-4 left-4 bg-white/90 p-2 backdrop-blur-sm shadow-lg transform -rotate-2">
+                    <h3 className="text-xl font-black text-gray-900 leading-none">好きだ</h3>
+                    <p className="text-[10px] text-gray-500 font-mono">Suki da</p>
+                 </div>
             </div>
-        </section>
+
+            {/* COLUMN 3: Clock & Greeting (Span 4) */}
+            <div className="col-span-1 md:col-span-4 flex flex-col gap-4">
+                 {/* Clock Box */}
+                 <div className="bg-white p-6 flex flex-col items-center justify-center aspect-square shadow-sm relative overflow-hidden">
+                     {/* Clean Clock */}
+                    <div className="scale-150 transform">
+                         <AnalogClock />
+                    </div>
+                 </div>
+
+                 {/* Greeting Box */}
+                 <div className="bg-[#556b2f] p-6 flex items-center justify-center text-white shadow-sm flex-1 min-h-[100px]">
+                      <h2 className="text-4xl font-thin tracking-widest text-center">
+                        おかえり
+                      </h2>
+                 </div>
+            </div>
+
+        </div>
 
         {/* BENTO GRID LAYOUT */}
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6 mb-12 auto-rows-[minmax(180px,auto)]">
