@@ -237,7 +237,7 @@ export default function ResourcePage() {
                         <div className="col-span-2">
                             {row.latihan && (
                                 <Link
-                                    href={`/lesson/${row.courseId}?chapterId=${row.id}&mode=quiz`}
+                                    href={`/resources/quiz/${row.id}`}
                                     className="bg-[#2d2d2d] px-2 py-1 rounded text-xs text-green-400 cursor-pointer hover:text-green-300"
                                 >
                                     {row.latihan}
