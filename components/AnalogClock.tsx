@@ -37,12 +37,29 @@ export function AnalogClock({ timezoneOffset = 7, className = "w-full h-full" }:
   const minuteDegrees = ((minutes + seconds / 60) / 60) * 360;
   const hourDegrees = ((hours + minutes / 60) / 12) * 360;
 
+  // Format Date
+  const dateStr = time.toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short'
+  });
+
   return (
     <div className={`relative ${className}`} aria-label="Analog Clock">
       {/* Clock Face */}
       <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
         {/* Background */}
         <circle cx="50" cy="50" r="48" fill="white" stroke="#e5e7eb" strokeWidth="2" />
+
+        {/* Date Display */}
+        <text
+            x="50"
+            y="70"
+            textAnchor="middle"
+            className="text-[10px] font-bold fill-gray-500 tracking-widest uppercase"
+            fontSize="8"
+        >
+            {dateStr}
+        </text>
 
         {/* Markers (Hours) */}
         {[...Array(12)].map((_, i) => (
